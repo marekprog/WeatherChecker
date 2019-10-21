@@ -3,16 +3,21 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="weather.Controller">
    <left>
       <Pane prefHeight="400.0" prefWidth="266.0" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="50.0" layoutY="14.0" text="Gdzie mieszkasz?" />
-            <TextField layoutX="15.0" layoutY="30.0" />
-            <Button layoutX="185.0" layoutY="30.0" mnemonicParsing="false" text="OK" />
+            <TextField fx:id="city1" layoutX="15.0" layoutY="30.0" onAction="#getHomeWeather" promptText="enter a city" />
+            <Button layoutX="185.0" layoutY="30.0" mnemonicParsing="false" onAction="#getHomeWeather" text="OK" />
+            <Label fx:id="weatherhome" layoutX="23.0" layoutY="82.0" prefHeight="117.0" prefWidth="201.0" text="Pogoda" textAlignment="JUSTIFY" wrapText="true">
+               <effect>
+                  <Glow />
+               </effect></Label>
          </children>
       </Pane>
    </left>
