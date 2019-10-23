@@ -11,6 +11,7 @@ import org.json.simple.parser.JSONParser;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 //import com.google.gson.*;
 //import com.google.gson.reflect.*;
@@ -18,20 +19,32 @@ import java.util.Map;
 /**
  * Created by marek an 18.10.2019.
  */
-public class GetWeatherData {
+public class WeatherHandler {
     private static String API_KEY = "1948f4846ad801580c470dc03af314bc";
     String LOCATION = "Kraków";
+    private String LAT;
+    private String LON;
+    private JSONArray PrognosisJson = new JSONArray();
+    private Vector<WObs> Forecast = new Vector<WObs>();
 
-    String urlString=
-            "http://api.openweathermap.org/data/2.5/forecast?q="+LOCATION+",pl"+"&appid="+API_KEY+"&units" +
-                    "=metric";
+    String  createUrlString(){
+        return "http://api.openweathermap.org/data/2.5/forecast?lat="+LAT+"&lon="+LON+"&appid="+API_KEY+"&units" +
+                "=metric";
+    }
+
+
+    public WeatherHandler(String LAT, String LON) {
+        this.LAT = LAT;
+        this.LON = LON;
+    }
 
     String getAPI_KEY(){return API_KEY;};
     String getWeather(){
         String report;
         try {
         StringBuilder result= new StringBuilder();
-        URL url=new URL(urlString);
+        URL url=new URL(createUrlString());
+        System.out.println(createUrlString());
         URLConnection conn = url.openConnection();
         BufferedReader rd=new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line;
@@ -45,9 +58,8 @@ public class GetWeatherData {
             // typecasting obj to JSONObject
             JSONObject jo = (JSONObject) obj;
             // getting all data
-            JSONArray ja = (JSONArray) jo.get("list");
-            System.out.println(ja);
-
+            PrognosisJson = (JSONArray) jo.get("list");
+            return Integer.toString(PrognosisJson.size());
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -59,5 +71,29 @@ public class GetWeatherData {
         return "ok";
     }
 
+    public void ParseForecast(){
+        for (int i = 0; i < PrognosisJson.size(); i++) {
+            JSONObject jsonObject = (JSONObject) PrognosisJson.get(i);
+            WObs singleObservation = new WObs(jsonObject);
+            Forecast.add(singleObservation);
 
+        }
+    }
+
+
+    public String getLAT() {
+        return LAT;
+    }
+
+    public void setLAT(String LAT) {
+        this.LAT = LAT;
+    }
+
+    public String getLON() {
+        return LON;
+    }
+
+    public void setLON(String LON) {
+        this.LON = LON;
+    }
 }

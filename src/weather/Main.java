@@ -17,7 +17,11 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("wewidget.fxml"));
         primaryStage.setTitle("Weather Checker v.1.0");
         primaryStage.setScene(new Scene(root, 600, 400));
-        GetWeatherData localweather = new GetWeatherData();
+        //GetWeatherData LocalWeather = new GetWeatherData();
+        //GetWeatherData DestWeather = new GetWeatherData();
+
+
+
         primaryStage.show();
     }
 

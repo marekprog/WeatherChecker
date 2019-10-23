@@ -18,26 +18,32 @@ import org.json.simple.parser.JSONParser;
 public class CityHandler {
     String location = "";
     String urlString="";//"https://nominatim.openstreetmap.org/?format=json&city="+location.replaceAll("\\s","+");
-    class City
-    {
-        public String CityName;
-        public String lat;
-        public String lon;
-    }
 
-    Vector<City> cities = new Vector<City>();
+    private Vector<City> cities = new Vector<City>();
+    private City selectedCity = new City();
 
     public CityHandler(String cityName){
         this.location=cityName;
         this.urlString="https://nominatim.openstreetmap.org/?format=json&city="+location.replaceAll("\\s","+");
     }
 
+    public void setUrlString(){
+        this.urlString="https://nominatim.openstreetmap.org/?format=json&city="+location.replaceAll("\\s","+");
+    }
+
+    public void selectCity(int index){
+        //System.out.println(index);
+        selectedCity=cities.elementAt(index);
+    }
+
     Vector<City> getCityList() {
         String report;
         JSONArray ja = null;
+        cities.clear();
         try {
             StringBuilder result = new StringBuilder();
             URL url = new URL(urlString);
+            System.out.println(urlString);
             URLConnection conn = url.openConnection();
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
@@ -48,22 +54,16 @@ public class CityHandler {
             //convert to object
             try {
                 Object obj = new JSONParser().parse(result.toString());
-                System.out.println(location);
-                // typecasting obj to JSONObject
-                //JSONObject jo = (JSONObject) obj;
-                // getting all data
+                System.out.println(result.toString());
                 ja = (JSONArray) obj;
-                // ja.get("display_name");
                 for (int i = 0; i < ja.size(); i++) {
-                    //System.out.println(ja.get(i));
                     JSONObject jsonObject = (JSONObject) ja.get(i);
                     City city = new City();
                     city.CityName=(String)jsonObject.get("display_name");
                     city.lat=(String)jsonObject.get("lat");
                     city.lon=(String)jsonObject.get("lon");
                     cities.addElement(city);
-                    //System.out.println(city.CityName);
-                    //cities.sonObject.get("display_name"));
+                    System.out.println(city.CityName);
 
                 }
                 //System.out.println(ja.get(0));
@@ -80,8 +80,18 @@ public class CityHandler {
     }
     void setCityName(String cityName){
         location = cityName;
+        System.out.println("Setting city name as"+location);
     }
-    String[] printCityList(Vector<City> cities){
+    String getCityName(){
+        return selectedCity.CityName;
+    }
+    String getLat(){
+        return selectedCity.lat;
+    }
+    String getLon(){
+        return selectedCity.lon;
+    }
+    String[] printCityList(){
         String[] ListOfCities = new String[cities.size()];
         Iterator<City> iterator = cities.iterator();
         int index=0;
