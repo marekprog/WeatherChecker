@@ -3,14 +3,23 @@ package weather;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.net.URL;
+import java.security.spec.ECField;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -23,6 +32,12 @@ public class Controller implements Initializable {
 
     @FXML
     private Label weatherDest=new Label();
+
+    @FXML
+    private GridPane GridUp= new GridPane();
+
+    @FXML
+    private GridPane GridDown= new GridPane();
 
     @FXML Button SubmitHome;
     @FXML Button SubmitDest;
@@ -53,8 +68,6 @@ public class Controller implements Initializable {
             CityListController controller = fxmlLoader.getController();
             controller.setSelection(select);
             controller.makeCityList(city);
-
-
             Stage stage =new Stage();
             stage.setTitle("City selector");
             stage.setScene(new Scene(root1));
@@ -68,17 +81,47 @@ public class Controller implements Initializable {
 
     @FXML
     public void setWeatherhome(){
-        //Home.setCityName(getHomeWeather());
         weatherhome.setText(Home.getCityName());
-        //System.out.println("Set weather");
+    }
+    @FXML
+    public void publishWeather(WeatherPlot wplot,GridPane grid){
+        try {
+            for (int i = 0; i < 10; i++) {
+                Label date = new Label();
+                date.setText(wplot.widgets[i].getPrettyDate());
+                date.setWrapText(true);
+                date.setTextAlignment(TextAlignment.CENTER);
+                date.setTextFill(Color.web("#ffffff"));
+                Image icon= new Image("http://openweathermap.org/img/wn/"+wplot.widgets[i].getIcon()+"@2x.png");
+                Label temp= new Label();
+                temp.setText(wplot.widgets[i].getTemp()+" °C");
+                temp.setTextFill(Color.web("#ffffff"));
+                grid.add(date, i, 0);
+                grid.add(new ImageView(icon), i, 1);
+                grid.add(temp, i, 2);
+            }
+        }
+        catch (Exception e){
+            System.out.println("Weather plot not set");
+        }
     }
 
     private void init(){
         WeatherHandler localW= new WeatherHandler(Home.getLat(),Home.getLon());
         WeatherHandler destW= new WeatherHandler(Destination.getLat(),Destination.getLon());
-        weatherhome.setText(localW.getWeather());
-        localW.ParseForecast();
-        weatherDest.setText(destW.getWeather());
+        localW.getWeather();
+        destW.getWeather();
+        weatherhome.setText(Home.getCityName());
+        weatherDest.setText(Destination.getCityName());
+        WeatherPlot local= new WeatherPlot(localW.getForecast());
+        local.setObservations();
+        local.setWidgets(localW.getForecast());
+        publishWeather(local,GridUp);
+        WeatherPlot dest= new WeatherPlot(destW.getForecast());
+        dest.setObservations();
+        dest.setWidgets(destW.getForecast());
+        publishWeather(dest,GridDown);
+
     }
 
     @Override

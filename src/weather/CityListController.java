@@ -37,7 +37,6 @@ public class CityListController implements Initializable {
     public void selectCity(){
         Stage closeWindow= (Stage) Submit.getScene().getWindow();
         closeWindow.close();
-        System.out.println(ListCities.getSelectionModel().getSelectedIndex());
         if (Selection==true)
             Controller.Home.selectCity(ListCities.getSelectionModel().getSelectedIndex());
         else
@@ -68,13 +67,10 @@ public class CityListController implements Initializable {
     public void makeCityList(String CityName){
         LabelCity.setText(CityName);
         CityHandler cityLocal = new CityHandler(CityName);
-        //String [] CityList;
-        System.out.println(CityName);
         String [] CityList;
         if (Selection==true) {
             Controller.Home.setCityName(CityName);
             Controller.Home.setUrlString();
-            System.out.println(Controller.Home.getCityName());
             Controller.Home.getCityList();
             //CityList = Controller.Home.printCityList();
             ObservableList<String> items = FXCollections.observableArrayList (Controller.Home.printCityList());
@@ -84,7 +80,6 @@ public class CityListController implements Initializable {
         else {
             Controller.Destination.setCityName(CityName);
             Controller.Destination.setUrlString();
-            System.out.println(Controller.Destination.getCityName());
             Controller.Destination.getCityList();
             //CityList = Controller.Destination.printCityList();
             ObservableList<String> items = FXCollections.observableArrayList (Controller.Destination.printCityList());

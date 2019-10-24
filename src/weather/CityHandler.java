@@ -32,7 +32,6 @@ public class CityHandler {
     }
 
     public void selectCity(int index){
-        //System.out.println(index);
         selectedCity=cities.elementAt(index);
     }
 
@@ -43,7 +42,6 @@ public class CityHandler {
         try {
             StringBuilder result = new StringBuilder();
             URL url = new URL(urlString);
-            System.out.println(urlString);
             URLConnection conn = url.openConnection();
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
@@ -54,7 +52,6 @@ public class CityHandler {
             //convert to object
             try {
                 Object obj = new JSONParser().parse(result.toString());
-                System.out.println(result.toString());
                 ja = (JSONArray) obj;
                 for (int i = 0; i < ja.size(); i++) {
                     JSONObject jsonObject = (JSONObject) ja.get(i);
@@ -63,10 +60,8 @@ public class CityHandler {
                     city.lat=(String)jsonObject.get("lat");
                     city.lon=(String)jsonObject.get("lon");
                     cities.addElement(city);
-                    System.out.println(city.CityName);
 
                 }
-                //System.out.println(ja.get(0));
 
             } catch (Exception e) {
                 System.out.println("failed to convert object");
@@ -80,7 +75,6 @@ public class CityHandler {
     }
     void setCityName(String cityName){
         location = cityName;
-        System.out.println("Setting city name as"+location);
     }
     String getCityName(){
         return selectedCity.CityName;
@@ -96,8 +90,6 @@ public class CityHandler {
         Iterator<City> iterator = cities.iterator();
         int index=0;
         while (iterator.hasNext()){
-
-            //System.out.println(iterator.next().CityName);
             ListOfCities[index]=iterator.next().CityName;
             index++;
 

@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+
+import com.sun.prism.shader.Solid_TextureYV12_AlphaTest_Loader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -44,7 +46,7 @@ public class WeatherHandler {
         try {
         StringBuilder result= new StringBuilder();
         URL url=new URL(createUrlString());
-        System.out.println(createUrlString());
+        //System.out.println(createUrlString());
         URLConnection conn = url.openConnection();
         BufferedReader rd=new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line;
@@ -59,7 +61,9 @@ public class WeatherHandler {
             JSONObject jo = (JSONObject) obj;
             // getting all data
             PrognosisJson = (JSONArray) jo.get("list");
-            return Integer.toString(PrognosisJson.size());
+            this.ParseForecast();
+            return "ok";
+
         }
         catch (Exception e){
             System.out.println(e.getMessage());
@@ -72,11 +76,12 @@ public class WeatherHandler {
     }
 
     public void ParseForecast(){
+        System.out.println("Parse forecast"+ Integer.toString(PrognosisJson.size()));
         for (int i = 0; i < PrognosisJson.size(); i++) {
             JSONObject jsonObject = (JSONObject) PrognosisJson.get(i);
             WObs singleObservation = new WObs(jsonObject);
+            singleObservation.setALL();
             Forecast.add(singleObservation);
-
         }
     }
 
@@ -95,5 +100,8 @@ public class WeatherHandler {
 
     public void setLON(String LON) {
         this.LON = LON;
+    }
+    public Vector<WObs> getForecast(){
+        return Forecast;
     }
 }
