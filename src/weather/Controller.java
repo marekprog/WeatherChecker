@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -60,18 +61,27 @@ public class Controller implements Initializable {
     public void getWeather(String city, Button button,boolean select){
 
         try{
-            Stage closeWindow= (Stage) button.getScene().getWindow();
-            closeWindow.close();
+
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("CitySelector.fxml"));
             Parent root1=fxmlLoader.load();
             CityListController controller = fxmlLoader.getController();
             controller.setSelection(select);
-            controller.makeCityList(city);
-            Stage stage =new Stage();
-            stage.setTitle("City selector");
-            stage.setScene(new Scene(root1));
-            stage.show();
+            Integer numberOfCities;
+            numberOfCities=controller.makeCityList(city);
+            if (numberOfCities>0){
+                Stage closeWindow= (Stage) button.getScene().getWindow();
+                closeWindow.close();
+                Stage stage =new Stage();
+                stage.setTitle("City selector");
+                stage.setScene(new Scene(root1));
+                stage.show();
+            }
+            else{
+                Alert a=new Alert(Alert.AlertType.WARNING);
+                a.setContentText("There is no such place");
+                a.show();
+            }
 
         }
         catch(Exception e) {

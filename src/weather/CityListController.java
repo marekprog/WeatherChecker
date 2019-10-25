@@ -64,26 +64,25 @@ public class CityListController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
-    public void makeCityList(String CityName){
+    public Integer makeCityList(String CityName){
         LabelCity.setText(CityName);
-        CityHandler cityLocal = new CityHandler(CityName);
-        String [] CityList;
+        //CityHandler cityLocal = new CityHandler(CityName);
+        //String [] CityList;
         if (Selection==true) {
             Controller.Home.setCityName(CityName);
             Controller.Home.setUrlString();
             Controller.Home.getCityList();
-            //CityList = Controller.Home.printCityList();
             ObservableList<String> items = FXCollections.observableArrayList (Controller.Home.printCityList());
             ListCities.setItems(items);
-            //CityList = Controller.Home.printCityList();
+            return items.size();
         }
         else {
             Controller.Destination.setCityName(CityName);
             Controller.Destination.setUrlString();
             Controller.Destination.getCityList();
-            //CityList = Controller.Destination.printCityList();
             ObservableList<String> items = FXCollections.observableArrayList (Controller.Destination.printCityList());
             ListCities.setItems(items);
+            return items.size();
         }
 
     }

@@ -76,7 +76,6 @@ public class WeatherHandler {
     }
 
     public void ParseForecast(){
-        System.out.println("Parse forecast"+ Integer.toString(PrognosisJson.size()));
         for (int i = 0; i < PrognosisJson.size(); i++) {
             JSONObject jsonObject = (JSONObject) PrognosisJson.get(i);
             WObs singleObservation = new WObs(jsonObject);
