@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import com.sun.prism.shader.Solid_TextureYV12_AlphaTest_Loader;
+//import com.sun.prism.shader.Solid_TextureYV12_AlphaTest_Loader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
