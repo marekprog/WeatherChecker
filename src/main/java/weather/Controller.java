@@ -112,7 +112,7 @@ public class Controller implements Initializable {
             }
         }
         catch (Exception e){
-            System.out.println("Weather plot not set");
+            //System.out.println("Weather plot not set");
         }
     }
 

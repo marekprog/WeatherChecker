@@ -49,12 +49,16 @@ public class WeatherWidget {
 
         String oldDateString = date;
         String newDateString;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+            Date d = sdf.parse(oldDateString);
+            sdf.applyPattern(NEW_FORMAT);
+            newDateString = sdf.format(d);
 
-        SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-        Date d = sdf.parse(oldDateString);
-        sdf.applyPattern(NEW_FORMAT);
-        newDateString = sdf.format(d);
+            return newDateString+":00 hr";
+        }catch (ParseException e){
+            return date;
+        }
 
-        return newDateString+":00 hr";
     }
 }

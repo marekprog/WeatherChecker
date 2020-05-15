@@ -37,7 +37,7 @@ public class WeatherPlot {
                 System.out.println("date: "+Date[i].substring(11,13));
             }
             catch (Exception e){
-                System.out.println("date unassigned");
+                //System.out.println("date unassigned");
             }
 
         }
@@ -56,7 +56,7 @@ public class WeatherPlot {
              }
         }
         catch (Exception e){
-            System.out.println("date unassigned 2");
+            //System.out.println("date unassigned 2");
         }
 
 
@@ -71,7 +71,9 @@ public class WeatherPlot {
                 widgets[i]=widget;
             }
         }
-        catch (Exception e){System.out.println(e.getMessage());}
+        catch (Exception e){
+            //System.out.println(e.getMessage());
+        }
 
     }
     public void printWidgets(){

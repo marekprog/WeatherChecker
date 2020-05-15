@@ -41,12 +41,10 @@ public class WeatherHandler {
     }
 
     String getAPI_KEY(){return API_KEY;};
-    String getWeather(){
-        String report;
+    public void getWeather(){
         try {
         StringBuilder result= new StringBuilder();
         URL url=new URL(createUrlString());
-        //System.out.println(createUrlString());
         URLConnection conn = url.openConnection();
         BufferedReader rd=new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line;
@@ -62,17 +60,15 @@ public class WeatherHandler {
             // getting all data
             PrognosisJson = (JSONArray) jo.get("list");
             this.ParseForecast();
-            return "ok";
 
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
 
         } catch (IOException e){
-        System.out.println(e.getMessage());
+        //System.out.println(e.getMessage());
         }
-        return "ok";
     }
 
     public void ParseForecast(){
